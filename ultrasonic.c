@@ -187,9 +187,9 @@ void ultrasonic_trigger()
 void ultrasonic_distance_check()
 {
 	ultrasonic_trigger(); // trigger 전송!
-	printf("L:%5dcm\n",ultrasonic_left_distance);
-	printf("C:%5dcm\n",ultrasonic_center_distance);
-	printf("R:%5dcm\n",ultrasonic_right_distance);
+	//printf("L:%5dcm\n",ultrasonic_left_distance);
+	//printf("C:%5dcm\n",ultrasonic_center_distance);
+	//printf("R:%5dcm\n",ultrasonic_right_distance);
 	//if(ultrasonic_trigger_timer>=1000) //1초
 	//{
 		//ultrasonic_trigger_timer=0;

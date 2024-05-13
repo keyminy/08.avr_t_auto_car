@@ -76,7 +76,7 @@ int main(void)
 		}else{
 			manual_mode_run(); // bt command로 제어
 		}
-		ultrasonic_distance_check();
+		//ultrasonic_distance_check();
 	
 	}
 }
@@ -147,7 +147,7 @@ void init_pwm_motor(void)
 	
 	MOTOR_DRIVER_PORT &= ~( 1 << 0 | 1 << 1 | 1 << 2 | 1 << 3 ); //0b11110000의 뜻
 	MOTOR_DRIVER_PORT |= 1 << 2 | 1 << 0; //정회전 전진 모드로 set
-	ICR1 = 0x3ff; // 0x3ff(1023)									   
+	ICR1 = 0x3ff; // 0x3ff(1023)								   
 }
 
 //F 전진 
@@ -207,8 +207,8 @@ void left(int speed)
 	MOTOR_DRIVER_PORT &= ~( 1 << 0 | 1 << 1 | 1 << 2 | 1 << 3 ); //0b11110000의 뜻
 	MOTOR_DRIVER_PORT |= 1 << 2 | 1 << 0; //정회전 전진 모드로 set
 	
-	OCR1A = 0; //PB5 PWM 출력 left
-	OCR1B = speed; //PB6 PWM 출력 right
+	OCR1A = speed; //PB5 PWM 출력 left
+	OCR1B = 0; //PB6 PWM 출력 right
 }
 
 void right(int speed)
@@ -216,8 +216,8 @@ void right(int speed)
 	MOTOR_DRIVER_PORT &= ~( 1 << 0 | 1 << 1 | 1 << 2 | 1 << 3 ); //0b11110000의 뜻
 	MOTOR_DRIVER_PORT |= 1 << 2 | 1 << 0; //정회전 전진 모드로 set
 	
-	OCR1A = speed; //PB5 PWM 출력 left
-	OCR1B = 0; //PB6 PWM 출력 right
+	OCR1A = 0; //PB5 PWM 출력 left
+	OCR1B = speed; //PB6 PWM 출력 right
 }
 
 void stop()
