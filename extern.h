@@ -27,6 +27,9 @@ extern volatile uint32_t shift_timer;
 extern volatile uint32_t ms_count;   // ms count
 extern volatile uint32_t ultrasonic_trigger_timer;
 extern volatile int ultrasonic_distance;
+extern volatile int ultrasonic_left_distance;
+extern volatile int ultrasonic_center_distance;
+extern volatile int ultrasonic_right_distance;
 extern volatile char scm[50];
 
 extern void init_ulatrsonic();

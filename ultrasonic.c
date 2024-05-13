@@ -95,7 +95,7 @@ ISR(INT4_vect)
 		//640/58=11cm
 		//1cm ; 58us 소요
 		/* ISR에다가 sprint하는 것은 바람직하지 않다. 시간적인 time dependency를 가지므로*/
-		//sprintf(scm,"dis: %4dcm",ultrasonic_left_distance/58);
+		//sprintf(scm,"dis: %4dcm",ultrasonic_distance/58);
 	}
 }
 
@@ -200,9 +200,9 @@ void ultrasonic_trigger()
 void ultrasonic_distance_check()
 {
 	ultrasonic_trigger(); // trigger 전송!
-	//printf("L:%5dcm\n",ultrasonic_left_distance);
-	//printf("C:%5dcm\n",ultrasonic_center_distance);
-	//printf("R:%5dcm\n",ultrasonic_right_distance);
+		//printf("L:%5dcm\n",ultrasonic_left_distance);
+		//printf("C:%5dcm\n",ultrasonic_center_distance);
+		//printf("R:%5dcm\n",ultrasonic_right_distance);
 	//if(ultrasonic_trigger_timer>=1000) //1초
 	//{
 		//ultrasonic_trigger_timer=0;

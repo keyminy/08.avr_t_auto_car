@@ -67,22 +67,47 @@ int main(void)
 
 	while (1)
 	{
-
+		ultrasonic_distance_check();
 		auto_mode_check();
 		if (button1_state)
 		{
-			auto_drive(); //자율주행 코딩 숙제
+			auto_drive();
 		}else{
 			manual_mode_run(); // bt command로 제어
 		}
-		ultrasonic_distance_check();
+
 	
 	}
 }
 
 void auto_drive()
 {
+	int safe_distance = 20; // Distance safe to move forward
+	int critical_distance = 5; //Distance to trigger avoidance maneuvers
 	
+	//Check center distance for forward movement or stopping
+	if(ultrasonic_center_distance > safe_distance){
+		forward(500);
+	}else if(ultrasonic_center_distance <= critical_distance){
+		// left or right turn
+		// Check side distance to decide direction of avoidance
+		if(ultrasonic_left_distance > ultrasonic_right_distance){
+			if(ultrasonic_left_distance > safe_distance){
+				left(700);
+			}else{
+				backward(500);
+			}
+		}else{
+			//ultrasonic_left_distance < ultrasonic_right_distance
+			if(ultrasonic_right_distance > safe_distance){
+				right(700);
+			}else{
+				backward(500);
+			}
+		}
+	}else {
+		stop(); // Stop if too close to an object directly ahead but not critical yet
+	}
 }
 
 

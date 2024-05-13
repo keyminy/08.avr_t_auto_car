@@ -29,11 +29,12 @@ void auto_mode_check()
 	if(get_button(BUTTON1PIN,BUTTON1))
 	{
 		button1_state= !button1_state;
+		stop();
 	}
 	if(button1_state)
 	{
 		PORTG |= 1 << 3; //LED ON
-		stop();
+		//stop();
 	}
 	else
 	{
