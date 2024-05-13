@@ -76,7 +76,7 @@ int main(void)
 		}else{
 			manual_mode_run(); // bt command로 제어
 		}
-		//ultrasonic_distance_check();
+		ultrasonic_distance_check();
 	
 	}
 }
