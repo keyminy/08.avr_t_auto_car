@@ -59,8 +59,7 @@ int main(void)
 	// fprintf(stdout,"test\n");  printf("test\n"); scanf("%s"buff);  ==> stdin
 	// fgets(input,100,stdin); // stdin : keyboard
 	init_ulatrsonic();
-//	I2C_LCD_init();
-	
+
 	sei();    // 전역적으로 인터럽트 허용
 	
 	//초기값 테스트
@@ -76,7 +75,7 @@ int main(void)
 		}else{
 			manual_mode_run(); // bt command로 제어
 		}
-		//ultrasonic_distance_check();
+		ultrasonic_distance_check();
 	
 	}
 }

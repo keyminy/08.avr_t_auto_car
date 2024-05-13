@@ -159,9 +159,14 @@ void ultrasonic_trigger()
 	TRIG_PORT_LEFT &= ~(1 << TRIG_LEFT); //low
 	
 	// Note : 초음파 센서의 echo응답 시간이 최대 38ms이다.
-	_delay_ms(40); // _delay_ms를 timer INT로 처리한다.
+	//_delay_ms(40); // _delay_ms를 timer INT로 처리한다.
 	//_delay_ms가 있어서는 안된다
 	//현재 demo code는 _delay_ms를 썻지만 여러분은 timer로 처리하기 바람.
+	if(ultrasonic_trigger_timer>=50)
+	{
+		ultrasonic_trigger_timer=0;
+	}
+	
 	
 	/* =========== CENTER ultrasonic ============= */
 	TRIG_PORT_CENTER &= ~(1 << TRIG_CENTER); //low
@@ -171,8 +176,11 @@ void ultrasonic_trigger()
 	TRIG_PORT_CENTER &= ~(1 << TRIG_CENTER); //low
 	
 	// Note : 초음파 센서의 echo응답 시간이 최대 38ms이다.
-	_delay_ms(40); // _delay_ms를 timer INT로 처리한다.
-	
+	//_delay_ms(40); // _delay_ms를 timer INT로 처리한다.
+	if(ultrasonic_trigger_timer>=50)
+	{
+		ultrasonic_trigger_timer=0;
+	}
 	///* =========== RIGHT ultrasonic ============= */
 	TRIG_PORT_RIGHT &= ~(1 << TRIG_RIGHT); //low
 	_delay_us(1);
@@ -181,7 +189,12 @@ void ultrasonic_trigger()
 	TRIG_PORT_RIGHT &= ~(1 << TRIG_RIGHT); //low
 	
 	// Note : 초음파 센서의 echo응답 시간이 최대 38ms이다.
-	_delay_ms(40); // _delay_ms를 timer INT로 처리한다.
+	//_delay_ms(40); // _delay_ms를 timer INT로 처리한다.
+	if(ultrasonic_trigger_timer>=50)
+	{
+		ultrasonic_trigger_timer=0;
+	}
+	
 }
 
 void ultrasonic_distance_check()
