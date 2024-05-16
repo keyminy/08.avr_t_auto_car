@@ -45,6 +45,12 @@
 #define ECHO_PIN_RIGHT PINE //INT5
 // =============== END ====================
 
+// CRITICAL_DISTANCE : Distance safe to move forward
+#define CRITICAL_DISTANCE 15
+
+volatile int isCenterBlocked;
+volatile int isLeftBlocked;
+volatile int isRightBlocked;
 volatile int ultrasonic_left_distance;
 volatile int ultrasonic_center_distance;
 volatile int ultrasonic_right_distance;

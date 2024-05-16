@@ -67,7 +67,6 @@ int main(void)
 
 	while (1)
 	{
-		ultrasonic_distance_check();
 		auto_mode_check();
 		if (button1_state)
 		{
@@ -75,38 +74,40 @@ int main(void)
 		}else{
 			manual_mode_run(); // bt command로 제어
 		}
-
+		ultrasonic_distance_check();
 	
 	}
 }
 
 void auto_drive()
 {
-	int safe_distance = 20; // Distance safe to move forward
-	int critical_distance = 5; //Distance to trigger avoidance maneuvers
-	
-	//Check center distance for forward movement or stopping
-	if(ultrasonic_center_distance > safe_distance){
+	if(isCenterBlocked == 0 && isLeftBlocked == 0 && isRightBlocked==0){
 		forward(500);
-	}else if(ultrasonic_center_distance <= critical_distance){
-		// left or right turn
-		// Check side distance to decide direction of avoidance
-		if(ultrasonic_left_distance > ultrasonic_right_distance){
-			if(ultrasonic_left_distance > safe_distance){
+	}else if(isLeftBlocked == 0 && isRightBlocked == 1){
+		left(700);
+	}else if(isLeftBlocked == 1 && isRightBlocked == 0){
+		right(700);
+	}else if(isCenterBlocked == 1){
+		if(isLeftBlocked == 0 && isRightBlocked ==0){
+			// 왼쪽으로 turn할지 오른쪽으로 turn할지 판단 필요
+			if(ultrasonic_left_distance >= ultrasonic_right_distance){
 				left(700);
 			}else{
-				backward(500);
+				right(700);
 			}
 		}else{
-			//ultrasonic_left_distance < ultrasonic_right_distance
-			if(ultrasonic_right_distance > safe_distance){
-				right(700);
-			}else{
-				backward(500);
-			}
+			//갈곳이 없으면 후진.
+			backward(500);
 		}
-	}else {
-		stop(); // Stop if too close to an object directly ahead but not critical yet
+	}else if(isLeftBlocked==1 & isCenterBlocked == 0 && isRightBlocked == 1){
+		// L C R : 1 0 1
+		if(ultrasonic_left_distance >= ultrasonic_right_distance){
+			left(700);
+		}else{
+			right(700);
+		}
+	}else{
+		stop();
 	}
 }
 
@@ -184,7 +185,7 @@ void manual_mode_run(void)
 	switch(uart1_rx_data)
 	{
 		case 'F': //forward
-		forward(500); //4us *400 = 0.002s = 2ms
+		forward(300); //4us *400 = 0.002s = 2ms
 		break;
 		
 		case 'B': //backward
@@ -192,11 +193,11 @@ void manual_mode_run(void)
 		break;
 		
 		case 'L': //left
-		left(700);
+		left(300);
 		break;
 		
 		case 'R': //right	
-		right(700);
+		right(400);
 		break;
 		
 		case 'S': //stop
@@ -254,3 +255,21 @@ void stop()
 }
 
 
+
+void turn_right(int speed)
+{
+	MOTOR_DRIVER_PORT &= ~( 1 << 0 | 1 << 1 | 1 << 2 | 1 << 3 ); //0b11110000의 뜻
+	MOTOR_DRIVER_PORT |= 1 << 2 | 1 << 1; // 0101 후진 모드로 set
+	
+	OCR1A = speed; //PB5 PWM 출력 left
+	OCR1B = speed; //PB6 PWM 출력 right
+}
+
+void turn_left(int speed)
+{
+	MOTOR_DRIVER_PORT &= ~( 1 << 0 | 1 << 1 | 1 << 2 | 1 << 3 ); //0b11110000의 뜻
+	MOTOR_DRIVER_PORT |= 1 << 3 | 1 << 0; // 0101 후진 모드로 set
+	
+	OCR1A = speed; //PB5 PWM 출력 left
+	OCR1B = speed; //PB6 PWM 출력 right
+}
